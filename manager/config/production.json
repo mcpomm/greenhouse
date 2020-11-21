@@ -1,0 +1,10 @@
+{
+  "Apis": {
+    "Temperature": {
+      "Endpoint": "http://greenhouse:5000/temperature"
+    },
+    "Humidity": {
+      "Endpoint": "http://greenhouse:5100/humidity"
+    }
+  }
+}
