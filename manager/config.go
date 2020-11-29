@@ -42,9 +42,8 @@ func readConfigFile() ([]byte, error) {
 }
 
 func getConfigName() string {
-	var c string = defaultConfig
 	if c, present := os.LookupEnv("CONFIG"); present {
 		return fmt.Sprintf("%s.json", c)
 	}
-	return fmt.Sprintf("%s.json", c)
+	return fmt.Sprintf("%s.json", defaultConfig)
 }
