@@ -76,6 +76,11 @@ import gc
 # import webrepl
 # webrepl.start()
 
+import upip
+
+def do_install():
+    upip.install('picoweb')
+
 
 def do_connect():
     sta_if = network.WLAN(network.STA_IF)
@@ -91,6 +96,7 @@ def do_connect():
 
 
 do_connect()
+do_install()
 gc.collect()
 ```
 
