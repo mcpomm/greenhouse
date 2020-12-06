@@ -9,6 +9,8 @@ import (
 
 var temperatureEndpoint string
 var humidityEndpoint string
+var soilMoistureEndpoint string
+var soilTemperatureEndpoint string
 
 // SensorData ...
 type SensorData struct {
@@ -26,11 +28,17 @@ func main() {
 	}
 	temperatureEndpoint = config.Apis.Temperature.Endpoint
 	humidityEndpoint = config.Apis.Humidity.Endpoint
+	soilMoistureEndpoint = config.Apis.SoilMoisture.Endpoint
+	soilTemperatureEndpoint = config.Apis.SoilTemperature.Endpoint
 
 	temperature, _ := getSensordata(temperatureEndpoint)
 	humidity, _ := getSensordata(humidityEndpoint)
+	soilMoisture, _ := getSensordata(soilMoistureEndpoint)
+	soilTemperature, _ := getSensordata(soilTemperatureEndpoint)
 	log.Println(temperature)
 	log.Println(humidity)
+	log.Println(soilMoisture)
+	log.Println(soilTemperature)
 
 }
 

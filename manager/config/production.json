@@ -5,6 +5,12 @@
     },
     "Humidity": {
       "Endpoint": "http://greenhouse:5100/humidity"
+    },
+    "SoilMoisture": {
+      "Endpoint": "http://greenhouse-satellite-02:5200"
+    },
+    "SoilTemperature": {
+      "Endpoint": "http://greenhouse-satellite-01:5300"
     }
   }
 }

@@ -20,6 +20,12 @@ type Configuration struct {
 		Humidity struct {
 			Endpoint string `json:"Endpoint"`
 		} `json:"Humidity"`
+		SoilMoisture struct {
+			Endpoint string `json:"Endpoint"`
+		} `json:"SoilMoisture"`
+		SoilTemperature struct {
+			Endpoint string `json:"Endpoint"`
+		} `json:"SoilTemperature"`
 	} `json:"Apis"`
 }
 
