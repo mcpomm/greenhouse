@@ -1,4 +1,4 @@
-# Greenhouse moisture module
+# Greenhouse soil temperature module
 
 ## Installing the USB to serial adapter driver
 
@@ -25,40 +25,6 @@ $ esptool.py --port /dev/cu.SLAB_USBtoUART --baud 115200 --after no_reset write_
 ```
 
 Notice: Be sure that the ESP8266 board is not connectd to the arduino IDE, picocom or similar. This is to prevent error messages like `can not acces because the board is busy or already in use`
-
-## calibrating the Soil Moisture Sensor V1.2
-
-In order to get a reasonable percentage value out of the moisture value, you need to know the value when the sensore is completely under water and completeley dry.
-
-1. Take a glas of water and insert the sensore but be sure that the upper, electronics part is not in the water.
-2. Record the value as `WaterValue` in you main.py. You can deploy the main.py. This will aslo print the corresponding value.
-3. Record the Value when the sensore is completely dry. this will be the `AirValue` in you main.py
-
-For calculating the percentage you can use the following snippet.
-
-```python
-import machine
-from machine import Pin
-from machine import ADC
-import time
-from time import sleep
-
-moisture = ADC(0)
-
-AirValue = 554
-WaterValue = 149
-
-
-def myMap(x, in_min, in_max, out_min, out_max):
-    return (x-in_min)*(out_max-out_min)/(in_max-in_min) + out_min
-
-
-while True:
-    moisture_value = moisture.read()
-    print(moisture_value)
-    print('%.2f' % myMap(moisture_value, AirValue, WaterValue, 0, 100), "%")
-    sleep(3)
-```
 
 ## Let ESP8266 connect to you router
 
