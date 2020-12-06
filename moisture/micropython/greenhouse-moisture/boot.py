@@ -15,7 +15,7 @@ def do_connect():
     if not sta_if.isconnected():
         print('connecting to network...')
         sta_if.active(True)
-        sta_if.config(dhcp_hostname="greenhouse-satellite-01")
+        sta_if.config(dhcp_hostname="greenhouse-satellite-02")
         sta_if.connect('xxx', 'xxx')
         while not sta_if.isconnected():
             pass

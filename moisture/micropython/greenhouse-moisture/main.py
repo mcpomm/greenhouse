@@ -1,6 +1,8 @@
 import machine
 from machine import Pin
 from machine import ADC
+import urandom
+import ujson
 import time
 from time import sleep
 try:
@@ -11,7 +13,17 @@ except:
 moisture = ADC(0)
 
 AirValue = 560
-WaterValue = 162
+WaterValue = 134
+
+# hid = random.randint(1000, 1000000)
+
+soilmoisture = {
+    "ID":     str(urandom.getrandbits(30)),
+    "Name":   "Soil Moisture",
+    "Value":  "",
+    "Unit":   "%",
+    # "Time":   str(time.mktime(datetime.datetime.today().timetuple())).split('.')[0]
+}
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('', 5200))
@@ -26,7 +38,9 @@ def getMoisture():
     moisture_value = moisture.read()
     print(moisture_value)
     print('%.2f' % myMap(moisture_value, AirValue, WaterValue, 0, 100), "%")
-    return str('%.2f' % myMap(moisture_value, AirValue, WaterValue, 0, 100)) + " %"
+    soilmoisture["Value"] = str('%.2f' % myMap(
+        moisture_value, AirValue, WaterValue, 0, 100))
+    return ujson.dumps(soilmoisture)
 
 
 while True:
