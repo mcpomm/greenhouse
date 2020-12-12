@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"reflect"
 )
 
 const defaultConfig = "test"
@@ -15,16 +16,24 @@ const defaultConfig = "test"
 type Configuration struct {
 	Apis struct {
 		Temperature struct {
-			Endpoint string `json:"Endpoint"`
+			Endpoint    string `json:"Endpoint"`
+			TresholdMin int    `json:"TresholdMin"`
+			TresholdMax int    `json:"TresholdMax"`
 		} `json:"Temperature"`
 		Humidity struct {
-			Endpoint string `json:"Endpoint"`
+			Endpoint    string `json:"Endpoint"`
+			TresholdMin int    `json:"TresholdMin"`
+			TresholdMax int    `json:"TresholdMax"`
 		} `json:"Humidity"`
 		SoilMoisture struct {
-			Endpoint string `json:"Endpoint"`
+			Endpoint    string `json:"Endpoint"`
+			TresholdMin int    `json:"TresholdMin"`
+			TresholdMax int    `json:"TresholdMax"`
 		} `json:"SoilMoisture"`
 		SoilTemperature struct {
-			Endpoint string `json:"Endpoint"`
+			Endpoint    string `json:"Endpoint"`
+			TresholdMin int    `json:"TresholdMin"`
+			TresholdMax int    `json:"TresholdMax"`
 		} `json:"SoilTemperature"`
 	} `json:"Apis"`
 }
@@ -52,4 +61,12 @@ func getConfigName() string {
 		return fmt.Sprintf("%s.json", c)
 	}
 	return fmt.Sprintf("%s.json", defaultConfig)
+}
+
+// GetTresholdValues ...
+func GetTresholdValues(field string, c *Configuration) (int, int) {
+	r := reflect.ValueOf(c)
+	min := reflect.Indirect(r).FieldByName("Apis").FieldByName(field).FieldByName("TresholdMin")
+	max := reflect.Indirect(r).FieldByName("Apis").FieldByName(field).FieldByName("TresholdMax")
+	return int(min.Int()), int(max.Int())
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -35,10 +36,10 @@ func main() {
 	humidity, _ := getSensordata(humidityEndpoint)
 	soilMoisture, _ := getSensordata(soilMoistureEndpoint)
 	soilTemperature, _ := getSensordata(soilTemperatureEndpoint)
-	log.Println(temperature)
-	log.Println(humidity)
-	log.Println(soilMoisture)
-	log.Println(soilTemperature)
+	handleSensordata("Temperature", temperature, config)
+	handleSensordata("Humidity", humidity, config)
+	handleSensordata("SoilMoisture", soilMoisture, config)
+	handleSensordata("SoilTemperature", soilTemperature, config)
 
 }
 
@@ -48,4 +49,14 @@ func getSensordata(endpoint string) (SensorData, error) {
 	var responseObject SensorData
 	json.Unmarshal(responseData, &responseObject)
 	return responseObject, err
+}
+
+func handleSensordata(s string, d SensorData, c Configuration) {
+	minValue, maxValue := GetTresholdValues(s, &c)
+	fmt.Println()
+	log.Println("Check", s)
+	log.Println("----------------------")
+	log.Printf("minimum value: %d %s\n", minValue, d.Unit)
+	log.Printf("maximum value: %d %s\n", maxValue, d.Unit)
+	log.Printf("current value: %s %s\n", d.Value, d.Unit)
 }

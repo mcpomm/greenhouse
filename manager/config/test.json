@@ -1,4 +1,9 @@
 {
+  "Monitoring":{
+    "CheckIntervalMinutes": 5,
+    "EvaluationIntervalMinutes": 30,
+    "TresholdLimitPercentage": 60
+  },
   "Apis": {
     "Temperature": {
       "Endpoint": "http://greenhouse-test:5000/temperature",
@@ -18,7 +23,7 @@
     "SoilTemperature": {
       "Endpoint": "http://greenhouse-satellite-01:5300",
       "TresholdMin": 18,
-      "TresholdMax": 20
+      "TresholdMax": 21
     }
   }
 }
