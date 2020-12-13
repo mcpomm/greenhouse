@@ -1,7 +1,7 @@
 package main
 
-var temperatureMinCheckList []string
-var temperatureMaxCheckList []string
+var temperatureMinCheckList []int
+var temperatureMaxCheckList []int
 
 SetMinTemperature(v int){
 	append(temperatureMinCheckList, v)
@@ -12,15 +12,18 @@ SetMaxTemperature(v int){
 }
 
 AnalyseMinTemperature() int {
-	capacity := len(temperatureMinCheckList)
-	current := sum(temperatureMinCheckList)
-	total := current * 100 / capacity
-	return total
+	result := analyse(temperatureMinCheckList)
+	return result
 }
 
-AnalyseMinTemperature() int {
-	capacity := len(temperatureMinCheckList)
-	current := sum(temperatureMinCheckList)
+AnalyseMaxTemperature() int {
+	result := analyse(temperatureMaxCheckList)
+	return result
+}
+
+analyse(list []int) int {
+	capacity := len(list)
+	current := sum(list)
 	total := current * 100 / capacity
 	return total
 }
