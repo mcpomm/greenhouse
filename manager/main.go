@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 var temperatureEndpoint string
@@ -59,4 +60,35 @@ func handleSensordata(s string, d SensorData, c Configuration) {
 	log.Printf("minimum value: %d %s\n", minValue, d.Unit)
 	log.Printf("maximum value: %d %s\n", maxValue, d.Unit)
 	log.Printf("current value: %s %s\n", d.Value, d.Unit)
+
+	switch s {
+	case "Temperature":
+		handleTemperature(minValue, maxValue, strconv.Atoi(d.Value))
+	case "Humidity":
+		handleHumidity()
+	case "SoilMoisture":
+		handleSoilMoisture()
+	case "SoilTemperature":
+		handleSoilTemperature()
+	}
+}
+
+func handleTemperature(min int, max int, current int) {
+	switch {
+	case current <= min:
+
+	}
+	fmt.Println("handle temperature")
+}
+
+func handleHumidity() {
+	fmt.Println("handle humidity")
+}
+
+func handleSoilMoisture() {
+	fmt.Println("handle soilMoisture")
+}
+
+func handleSoilTemperature() {
+	fmt.Println("handle soilTemperature")
 }
