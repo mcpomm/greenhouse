@@ -63,7 +63,8 @@ func handleSensordata(s string, d SensorData, c Configuration) {
 
 	switch s {
 	case "Temperature":
-		handleTemperature(minValue, maxValue, strconv.Atoi(d.Value))
+		ti, _ := strconv.ParseFloat(d.Value, 64)
+		handleTemperature(minValue, maxValue, int(ti))
 	case "Humidity":
 		handleHumidity()
 	case "SoilMoisture":
@@ -75,10 +76,18 @@ func handleSensordata(s string, d SensorData, c Configuration) {
 
 func handleTemperature(min int, max int, current int) {
 	switch {
-	case current <= min:
-
+	case current < min:
+		SetMinTemperature(0)
+		SetMaxTemperature(1)
+	case current > min, current < max:
+		SetMinTemperature(1)
+		SetMaxTemperature(1)
+	case current > max:
+		SetMaxTemperature(0)
 	}
-	fmt.Println("handle temperature")
+	log.Println("Analyse temperature results")
+	log.Printf("The current temperature results are %d %% above the minimum treshold.", AnalyseMinTemperature())
+	log.Printf("The current temperature results are %d %% below the maximum treshold.", AnalyseMaxTemperature())
 }
 
 func handleHumidity() {
