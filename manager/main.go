@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 var temperatureEndpoint string
@@ -61,43 +62,22 @@ func handleSensordata(s string, d SensorData, c Configuration) {
 	log.Printf("maximum value: %d %s\n", maxValue, d.Unit)
 	log.Printf("current value: %s %s\n", d.Value, d.Unit)
 
-	switch s {
-	case "Temperature":
-		ti, _ := strconv.ParseFloat(d.Value, 64)
-		handleTemperature(minValue, maxValue, int(ti))
-	case "Humidity":
-		handleHumidity()
-	case "SoilMoisture":
-		handleSoilMoisture()
-	case "SoilTemperature":
-		handleSoilTemperature()
-	}
+	vi, _ := strconv.ParseFloat(d.Value, 64)
+	handleAnalyse(minValue, maxValue, int(vi), s)
 }
 
-func handleTemperature(min int, max int, current int) {
+func handleAnalyse(min int, max int, current int, sensor string) {
 	switch {
 	case current < min:
-		SetMinTemperature(0)
-		SetMaxTemperature(1)
+		SetMin(0, sensor)
+		SetMax(1, sensor)
 	case current > min, current < max:
-		SetMinTemperature(1)
-		SetMaxTemperature(1)
+		SetMin(1, sensor)
+		SetMax(1, sensor)
 	case current > max:
-		SetMaxTemperature(0)
+		SetMax(0, sensor)
 	}
-	log.Println("Analyse temperature results")
-	log.Printf("The current temperature results are %d %% above the minimum treshold.", AnalyseMinTemperature())
-	log.Printf("The current temperature results are %d %% below the maximum treshold.", AnalyseMaxTemperature())
-}
-
-func handleHumidity() {
-	fmt.Println("handle humidity")
-}
-
-func handleSoilMoisture() {
-	fmt.Println("handle soilMoisture")
-}
-
-func handleSoilTemperature() {
-	fmt.Println("handle soilTemperature")
+	log.Println("Analyse %s results")
+	log.Printf("The current %s results are %d %% above the minimum treshold.", strings.ToLower(sensor), AnalyseMin(sensor))
+	log.Printf("The current %s results are %d %% below the maximum treshold.", strings.ToLower(sensor), AnalyseMax(sensor))
 }
