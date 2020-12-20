@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 var temperatureMinCheckList []int
 var temperatureMaxCheckList []int
 
@@ -72,6 +74,21 @@ func AnalyseMax(s string) int {
 	return result
 }
 
+// CleanAnalysis ...
+func CleanAnalysis() {
+	temperatureMinCheckList = nil
+	temperatureMaxCheckList = nil
+
+	humidityMinCheckList = nil
+	humidityMaxCheckList = nil
+
+	soilMoistureMinCheckList = nil
+	soilMoistureMaxCheckList = nil
+
+	soilTemperatureMinCheckList = nil
+	soilTemperatureMaxCheckList = nil
+}
+
 func analyse(list []int) int {
 	capacity := len(list)
 	current := sum(list)
@@ -85,4 +102,19 @@ func sum(list []int) int {
 		sum += num
 	}
 	return sum
+}
+
+// PrintAnalysisLists ...
+func PrintAnalysisLists() {
+	fmt.Printf("temperatureMinCheckList %v\n", temperatureMinCheckList)
+	fmt.Printf("temperatureMaxCheckList %v\n", temperatureMaxCheckList)
+
+	fmt.Printf("humidityMinCheckList %v\n", humidityMinCheckList)
+	fmt.Printf("humidityMaxCheckList %v\n", humidityMaxCheckList)
+
+	fmt.Printf("soilMoistureMinCheckList %v\n", soilMoistureMinCheckList)
+	fmt.Printf("soilMoistureMaxCheckList %v\n", soilMoistureMaxCheckList)
+
+	fmt.Printf("soilTemperatureMinCheckList %v\n", soilTemperatureMinCheckList)
+	fmt.Printf("soilTemperatureMaxCheckList %v\n", soilTemperatureMaxCheckList)
 }

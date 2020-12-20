@@ -1,7 +1,7 @@
 {
   "Monitoring":{
     "CheckIntervalMinutes": 5,
-    "EvaluationIntervalMinutes": 30,
+    "CheckIntervalCountPerEvaluation": 10,
     "TresholdLimitPercentage": 60
   },
   "Apis": {

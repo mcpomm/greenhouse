@@ -8,12 +8,15 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var temperatureEndpoint string
 var humidityEndpoint string
 var soilMoistureEndpoint string
 var soilTemperatureEndpoint string
+
+var c chan int
 
 // SensorData ...
 type SensorData struct {
@@ -29,20 +32,39 @@ func main() {
 	if err != nil {
 		log.Printf("Cannot load config: %s", err.Error())
 	}
+	runSensorCheck(config)
+
+}
+
+func runSensorCheck(config Configuration) {
+	counter := 0
+
 	temperatureEndpoint = config.Apis.Temperature.Endpoint
 	humidityEndpoint = config.Apis.Humidity.Endpoint
 	soilMoistureEndpoint = config.Apis.SoilMoisture.Endpoint
 	soilTemperatureEndpoint = config.Apis.SoilTemperature.Endpoint
 
-	temperature, _ := getSensordata(temperatureEndpoint)
-	humidity, _ := getSensordata(humidityEndpoint)
-	soilMoisture, _ := getSensordata(soilMoistureEndpoint)
-	soilTemperature, _ := getSensordata(soilTemperatureEndpoint)
-	handleSensordata("Temperature", temperature, config)
-	handleSensordata("Humidity", humidity, config)
-	handleSensordata("SoilMoisture", soilMoisture, config)
-	handleSensordata("SoilTemperature", soilTemperature, config)
+	for range time.Tick(10 * time.Second) {
+		counter++
 
+		fmt.Println(counter)
+
+		temperature, _ := getSensordata(temperatureEndpoint)
+		humidity, _ := getSensordata(humidityEndpoint)
+		soilMoisture, _ := getSensordata(soilMoistureEndpoint)
+		soilTemperature, _ := getSensordata(soilTemperatureEndpoint)
+		handleSensordata("Temperature", temperature, config)
+		handleSensordata("Humidity", humidity, config)
+		handleSensordata("SoilMoisture", soilMoisture, config)
+		handleSensordata("SoilTemperature", soilTemperature, config)
+
+		PrintAnalysisLists()
+
+		if counter == config.Monitoring.CheckIntervalCountPerEvaluation {
+			counter = 0
+			CleanAnalysis()
+		}
+	}
 }
 
 func getSensordata(endpoint string) (SensorData, error) {
@@ -77,7 +99,7 @@ func handleAnalyse(min int, max int, current int, sensor string) {
 	case current > max:
 		SetMax(0, sensor)
 	}
-	log.Println("Analyse %s results")
+	log.Printf("Analyse %s results", strings.ToLower(sensor))
 	log.Printf("The current %s results are %d %% above the minimum treshold.", strings.ToLower(sensor), AnalyseMin(sensor))
 	log.Printf("The current %s results are %d %% below the maximum treshold.", strings.ToLower(sensor), AnalyseMax(sensor))
 }

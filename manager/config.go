@@ -14,6 +14,9 @@ const defaultConfig = "test"
 
 // Configuration ...
 type Configuration struct {
+	Monitoring struct {
+		CheckIntervalCountPerEvaluation int `json:"CheckIntervalCountPerEvaluation"`
+	}
 	Apis struct {
 		Temperature struct {
 			Endpoint    string `json:"Endpoint"`
