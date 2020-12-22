@@ -15,7 +15,8 @@ const defaultConfig = "test"
 // Configuration ...
 type Configuration struct {
 	Monitoring struct {
-		CheckIntervalCountPerEvaluation int `json:"CheckIntervalCountPerEvaluation"`
+		CheckIntervalCountPerEvaluation int    `json:"CheckIntervalCountPerEvaluation"`
+		ThingSpeakAPI                   string `json:"ThingSpeakAPI"`
 	}
 	Apis struct {
 		Temperature struct {

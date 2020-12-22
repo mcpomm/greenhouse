@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -15,6 +16,11 @@ var temperatureEndpoint string
 var humidityEndpoint string
 var soilMoistureEndpoint string
 var soilTemperatureEndpoint string
+
+var temperatureAPIKey = os.Getenv("TEMPERATURE_API_KEY")
+var humidityAPIKey = os.Getenv("HUMIDITY_API_KEY")
+var soilMoistureAPIKey = os.Getenv("SOIL_MOISTURE_API_KEY")
+var soilTemperatureAPIKey = os.Getenv("SOIL_TEMPERATURE_API_KEY")
 
 var c chan int
 
@@ -33,7 +39,6 @@ func main() {
 		log.Printf("Cannot load config: %s", err.Error())
 	}
 	runSensorCheck(config)
-
 }
 
 func runSensorCheck(config Configuration) {
@@ -44,15 +49,23 @@ func runSensorCheck(config Configuration) {
 	soilMoistureEndpoint = config.Apis.SoilMoisture.Endpoint
 	soilTemperatureEndpoint = config.Apis.SoilTemperature.Endpoint
 
-	for range time.Tick(10 * time.Second) {
+	for range time.Tick(5 * time.Minute) {
 		counter++
-
-		fmt.Println(counter)
 
 		temperature, _ := getSensordata(temperatureEndpoint)
 		humidity, _ := getSensordata(humidityEndpoint)
 		soilMoisture, _ := getSensordata(soilMoistureEndpoint)
 		soilTemperature, _ := getSensordata(soilTemperatureEndpoint)
+
+		ThingSpeak(
+			config,
+			Payload{
+				APIKey: os.Getenv("THING_SPEAK_API_KEY"),
+				Field1: temperature.Value,
+				Field2: humidity.Value,
+				Field3: soilMoisture.Value,
+				Field4: soilTemperature.Value})
+
 		handleSensordata("Temperature", temperature, config)
 		handleSensordata("Humidity", humidity, config)
 		handleSensordata("SoilMoisture", soilMoisture, config)
