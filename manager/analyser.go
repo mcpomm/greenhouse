@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"strings"
+)
 
 var temperatureMinCheckList []int
 var temperatureMaxCheckList []int
@@ -14,8 +18,25 @@ var soilMoistureMaxCheckList []int
 var soilTemperatureMinCheckList []int
 var soilTemperatureMaxCheckList []int
 
+// HandleAnalyse ...
+func HandleAnalyse(min int, max int, current int, sensor string) {
+	switch {
+	case current < min:
+		setMin(0, sensor)
+		setMax(1, sensor)
+	case current > min, current < max:
+		setMin(1, sensor)
+		setMax(1, sensor)
+	case current > max:
+		setMax(0, sensor)
+	}
+	log.Printf("Analyse %s results", strings.ToLower(sensor))
+	log.Printf("The current %s results are %d %% above the minimum treshold.", strings.ToLower(sensor), AnalyseMin(sensor))
+	log.Printf("The current %s results are %d %% below the maximum treshold.", strings.ToLower(sensor), AnalyseMax(sensor))
+}
+
 // SetMin ...
-func SetMin(v int, s string) {
+func setMin(v int, s string) {
 	switch s {
 	case "Temperature":
 		temperatureMinCheckList = append(temperatureMinCheckList, v)
@@ -29,7 +50,7 @@ func SetMin(v int, s string) {
 }
 
 // SetMax ...
-func SetMax(v int, s string) {
+func setMax(v int, s string) {
 	switch s {
 	case "Temperature":
 		temperatureMaxCheckList = append(temperatureMaxCheckList, v)

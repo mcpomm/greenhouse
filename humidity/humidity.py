@@ -11,7 +11,7 @@ import time
 import datetime
 
 PORT = 5100
-dhtDevice = adafruit_dht.DHT11(board.D17)
+dhtDevice = adafruit_dht.DHT22(board.D17)
 
 app = Flask(__name__)
 hid = random.randint(1000, 1000000)

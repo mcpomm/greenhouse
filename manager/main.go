@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -98,21 +97,5 @@ func handleSensordata(s string, d SensorData, c Configuration) {
 	log.Printf("current value: %s %s\n", d.Value, d.Unit)
 
 	vi, _ := strconv.ParseFloat(d.Value, 64)
-	handleAnalyse(minValue, maxValue, int(vi), s)
-}
-
-func handleAnalyse(min int, max int, current int, sensor string) {
-	switch {
-	case current < min:
-		SetMin(0, sensor)
-		SetMax(1, sensor)
-	case current > min, current < max:
-		SetMin(1, sensor)
-		SetMax(1, sensor)
-	case current > max:
-		SetMax(0, sensor)
-	}
-	log.Printf("Analyse %s results", strings.ToLower(sensor))
-	log.Printf("The current %s results are %d %% above the minimum treshold.", strings.ToLower(sensor), AnalyseMin(sensor))
-	log.Printf("The current %s results are %d %% below the maximum treshold.", strings.ToLower(sensor), AnalyseMax(sensor))
+	HandleAnalyse(minValue, maxValue, int(vi), s)
 }
