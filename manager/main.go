@@ -74,6 +74,10 @@ func runSensorCheck(config Configuration) {
 
 		if counter == config.Monitoring.CheckIntervalCountPerEvaluation {
 			counter = 0
+			evaluateAnalysis("Temperature", config)
+			evaluateAnalysis("Humidity", config)
+			evaluateAnalysis("SoilMoisture", config)
+			evaluateAnalysis("SoilTemperature", config)
 			CleanAnalysis()
 		}
 	}
@@ -98,4 +102,50 @@ func handleSensordata(s string, d SensorData, c Configuration) {
 
 	vi, _ := strconv.ParseFloat(d.Value, 64)
 	HandleAnalyse(minValue, maxValue, int(vi), s)
+}
+
+func evaluateAnalysis(s string, c Configuration) {
+	evaluationMin := AnalyseMin(s)
+	evaluationMax := AnalyseMax(s)
+	switch s {
+	case "Temperature":
+		if evaluationMax <= c.Monitoring.TresholdLimitPercentage {
+			log.Println("The temperature must be reduced.")
+			TriggerFans()
+		} else if evaluationMin <= c.Monitoring.TresholdLimitPercentage {
+			log.Println("The temperature must be increased.")
+			TriggerAirHeating()
+
+		} else {
+			log.Println("The temperature is within the treshold limits.")
+		}
+	case "Humidity":
+		if evaluationMax <= c.Monitoring.TresholdLimitPercentage {
+			log.Println("The humidity must be reduced.")
+			TriggerFans()
+		} else if evaluationMin <= c.Monitoring.TresholdLimitPercentage {
+			log.Println("The humidity must be increased.")
+			TriggerWaterTankFill()
+		} else {
+			log.Println("The humidity is within the treshold limits.")
+		}
+	case "SoilMoisture":
+		if evaluationMax <= c.Monitoring.TresholdLimitPercentage {
+			log.Println("The soil moisture must be reduced.")
+		} else if evaluationMin <= c.Monitoring.TresholdLimitPercentage {
+			log.Println("The soil moisture must be increased.")
+			TriggerSoilWatering()
+		} else {
+			log.Println("The soil moisture is within the treshold limits.")
+		}
+	case "SoilTemperature":
+		if evaluationMax <= c.Monitoring.TresholdLimitPercentage {
+			log.Println("The soil temperature must be reduced.")
+		} else if evaluationMin <= c.Monitoring.TresholdLimitPercentage {
+			log.Println("The soil temperature must be increased.")
+			TriggerSoilHeating()
+		} else {
+			log.Println("The soil temperature is within the treshold limits.")
+		}
+	}
 }

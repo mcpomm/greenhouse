@@ -17,6 +17,7 @@ type Configuration struct {
 	Monitoring struct {
 		CheckIntervalCountPerEvaluation int    `json:"CheckIntervalCountPerEvaluation"`
 		ThingSpeakAPI                   string `json:"ThingSpeakAPI"`
+		TresholdLimitPercentage         int    `json:TresholdLimitPercentage`
 	}
 	Apis struct {
 		Temperature struct {
