@@ -25,6 +25,10 @@
       "Endpoint": "http://greenhouse-satellite-01:5300",
       "TresholdMin": 18,
       "TresholdMax": 21
+    },
+    "WaterPump": {
+      "Endpoint": "http://greenhouse-satellite-03:5400",
+      "PumpDuration": 4
     }
   }
 }

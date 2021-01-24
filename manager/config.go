@@ -40,6 +40,10 @@ type Configuration struct {
 			TresholdMin int    `json:"TresholdMin"`
 			TresholdMax int    `json:"TresholdMax"`
 		} `json:"SoilTemperature"`
+		WaterPump struct {
+			Endpoint     string `json:"Endpoint"`
+			PumpDuration int    `json:"PumpDuration"`
+		} `json:"WaterPump"`
 	} `json:"Apis"`
 }
 

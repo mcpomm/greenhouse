@@ -12,8 +12,8 @@ except:
 
 moisture = ADC(0)
 
-AirValue = 560
-WaterValue = 136
+AirValue = 562
+WaterValue = 134
 
 ntptime.settime()
 machine.RTC().datetime()

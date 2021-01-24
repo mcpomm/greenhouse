@@ -8,8 +8,10 @@ You should now be able to connect to the following port: `/dev/cu.SLAB_USBtoUART
 
 ## Deploying MicroPython firmware to the ESP8266 board
 
+Please note that I had some problems uploading files with adafruit-ampy when my NodeMCU was flashed with esptool v 3.0.
+
 ```bash
-$ pip install esptool
+$ pip install esptool==2.8
 ```
 
 Erase the existing flash with:

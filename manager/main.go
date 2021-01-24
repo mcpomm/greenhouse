@@ -43,6 +43,7 @@ func main() {
 func runSensorCheck(config Configuration) {
 	counter := 0
 
+	// Sensor Endpoints
 	temperatureEndpoint = config.Apis.Temperature.Endpoint
 	humidityEndpoint = config.Apis.Humidity.Endpoint
 	soilMoistureEndpoint = config.Apis.SoilMoisture.Endpoint
@@ -134,7 +135,7 @@ func evaluateAnalysis(s string, c Configuration) {
 			log.Println("The soil moisture must be reduced.")
 		} else if evaluationMin <= c.Monitoring.TresholdLimitPercentage {
 			log.Println("The soil moisture must be increased.")
-			TriggerSoilWatering()
+			TriggerSoilWatering(c)
 		} else {
 			log.Println("The soil moisture is within the treshold limits.")
 		}

@@ -1,6 +1,11 @@
 package main
 
-import "log"
+import (
+	"bytes"
+	"encoding/json"
+	"log"
+	"net/http"
+)
 
 // TriggerFans ...
 func TriggerFans() {
@@ -18,8 +23,20 @@ func TriggerWaterTankFill() {
 }
 
 // TriggerSoilWatering ...
-func TriggerSoilWatering() {
+func TriggerSoilWatering(config Configuration) {
 	log.Println("Trigger soil watering.")
+	waterPumpEndpoint := config.Apis.WaterPump.Endpoint
+	values := map[string]string{"pumpDuration": config.Apis.WaterPump.PumpDuration}
+	jsonData, _ := json.Marshal(values)
+
+	response, err := http.Post(waterPumpEndpoint, "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var res map[string]interface{}
+	json.NewDecoder(response.Body).Decode(&res)
+	log.Println(res["json"])
 }
 
 // TriggerSoilHeating ...
