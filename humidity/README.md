@@ -3,6 +3,7 @@
 ## wire
 
 ![DHT11-DHT22-schema.jpg](DHT11-DHT22-schema.jpg)
+source: https://www.thegeekpub.com/236867/using-the-dht11-temperature-sensor-with-the-raspberry-pi/
 
 ## Installing CircuitPython Libraries on Raspberry Pi
 

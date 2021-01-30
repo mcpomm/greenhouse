@@ -1,7 +1,7 @@
 {
   "Monitoring":{
     "ThingSpeakAPI": "https://api.thingspeak.com/update.json",
-    "CheckIntervalMinutes": 5,
+    "CheckIntervalMinutes": 1,
     "CheckIntervalCountPerEvaluation": 10,
     "TresholdLimitPercentage": 60
   },

@@ -9,6 +9,26 @@ except:
 # # ESP32 GPIO 26
 # relay = Pin(26, Pin.OUT)
 
+# The reason why the values are reversed (off = 1 and on = 0) is described here: https://arduino.stackexchange.com/questions/54502/5v-relay-module
+
+# Or in short, most relays are delivered in normally closed (NC) mode. This means that the circuit is closed and the relay is activated. To switch to normally open (NO), i.e. to deactivate the relay, the trigger pin must be energized (1 / on). If the relay is then to be reactivated, i.e. the manget lever of the relay is to jump back again, the trigger pin must no longer carry current, i.e. (0 / off).
+
+# Therefore:
+# on = normally open(NO)
+# and
+# off = normally closed(NC)
+
+# The corresponding cable connections from (+) to the relay is as follows:
+# common -> to the load (+)
+# normally open(NO) -> to the power source (+)
+
+# You can also set the values correctly but then you have to change the cable connections as follows:
+# common -> to the consumer (+)
+# normally colsed(NC) -> to the power source (+)
+# This has the consequence that the consumer is switched on continuously in case of a defective or not connected NodeMCU module/trigger.
+
+# Since the consumer, in this case the watering pump, is to activate only briefly by the trigger, the values were simply swapped.
+
 off = 1
 on = 0
 

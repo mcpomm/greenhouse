@@ -49,7 +49,7 @@ func runSensorCheck(config Configuration) {
 	soilMoistureEndpoint = config.Apis.SoilMoisture.Endpoint
 	soilTemperatureEndpoint = config.Apis.SoilTemperature.Endpoint
 
-	for range time.Tick(5 * time.Minute) {
+	for range time.Tick(config.Monitoring.CheckIntervalMinutes * time.Minute) {
 		counter++
 
 		temperature, _ := getSensordata(temperatureEndpoint)

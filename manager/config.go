@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"time"
 )
 
 const defaultConfig = "test"
@@ -15,9 +16,10 @@ const defaultConfig = "test"
 // Configuration ...
 type Configuration struct {
 	Monitoring struct {
-		CheckIntervalCountPerEvaluation int    `json:"CheckIntervalCountPerEvaluation"`
-		ThingSpeakAPI                   string `json:"ThingSpeakAPI"`
-		TresholdLimitPercentage         int    `json:TresholdLimitPercentage`
+		ThingSpeakAPI                   string        `json:"ThingSpeakAPI"`
+		CheckIntervalMinutes            time.Duration `json:"CheckIntervalMinutes"`
+		CheckIntervalCountPerEvaluation int           `json:"CheckIntervalCountPerEvaluation"`
+		TresholdLimitPercentage         int           `json:"TresholdLimitPercentage"`
 	}
 	Apis struct {
 		Temperature struct {
