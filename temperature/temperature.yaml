@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  name: temperature
+spec:
+  ports:
+    - port: 5000
+      protocol: TCP
+      targetPort: 5000
+  selector:
+    run: temperature
+status:
+  loadBalancer: {}
+---
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: temperature
+  name: temperature
+spec:
+  containers:
+    - env:
+        - name: PORT
+          value: "5000"
+      image: mcpomm/greenhouse-temperature:0.0.2
+      name: temperature
+      ports:
+        - containerPort: 5000
+      securityContext:
+        privileged: true
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

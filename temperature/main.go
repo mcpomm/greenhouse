@@ -51,7 +51,7 @@ func main() {
 	}
 	sensor = sensors[0]
 
-	http.HandleFunc("/temperature", temperature)
+	http.HandleFunc("/", temperature)
 	http.ListenAndServe(":5000", nil)
 
 }
