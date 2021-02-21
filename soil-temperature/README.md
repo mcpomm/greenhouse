@@ -90,13 +90,13 @@ See also: https://learn.adafruit.com/micropython-basics-load-files-and-run-code/
 $ ampy --port /dev/cu.SLAB_USBtoUART put main.py
 ```
 
-## Use this module with Rpi
+# Use this module with Rpi
 
-# build
+## build
 
 `env GOOS=linux GOARCH=arm GOARM=6 go build`
 
-# upload to greenhouse-test
+## upload to greenhouse-test
 
 `rsync -avz temperature pi@greenhouse-test:greenhouse/temperature`
 
