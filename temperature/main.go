@@ -45,11 +45,8 @@ func temperature(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	sensors, err := ds18b20.Sensors()
-	if err != nil {
-		panic(err)
-	}
-	sensor = sensors[0]
+	// read sensor id from sys/bus/w1/devices/
+	sensor = "28-0215c2c3c3ff"
 
 	http.HandleFunc("/", temperature)
 	http.ListenAndServe(":5000", nil)

@@ -12,3 +12,9 @@
 
 ![ds18b20-schema.png](ds18b20-schema.png)
 source: https://raspberry-hosting.com/en/faq/enable-one-wiring-ds18b20-and-ds18s20-digital-thermometer
+
+## Docker
+
+`docker build -t temperature . --platform linux/arm/v7`
+`docker tag temperature:latest mcpomm/greenhouse-temperature:<tag>`
+`docker push mcpomm/greenhouse-temperature:<tag>`

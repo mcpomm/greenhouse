@@ -23,7 +23,7 @@ ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
 
 roms = ds_sensor.scan()
 
-soitemperature = {
+soiltemperature = {
     "ID":     str(urandom.getrandbits(30)),
     "Name":   "Soil Temperature",
     "Value":  "",
@@ -42,10 +42,10 @@ soitemperature = {
 def getTemperature():
     ds_sensor.convert_temp()
     readtime = 946684800 + utime.time()
-    soitemperature["Time"] = str(readtime)
-    soitemperature["Value"] = str(ds_sensor.read_temp(roms[0]))
+    soiltemperature["Time"] = str(readtime)
+    soiltemperature["Value"] = str(ds_sensor.read_temp(roms[0]))
     print(ds_sensor.read_temp(roms[0]))
-    return ujson.dumps(soitemperature)
+    return ujson.dumps(soiltemperature)
     # return str(ds_sensor.read_temp(roms[0]))  # ds_sensor.read_temp(roms[0])
 
 

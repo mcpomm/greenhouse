@@ -89,3 +89,19 @@ See also: https://learn.adafruit.com/micropython-basics-load-files-and-run-code/
 ```bash
 $ ampy --port /dev/cu.SLAB_USBtoUART put main.py
 ```
+
+## Use this module with Rpi
+
+# build
+
+`env GOOS=linux GOARCH=arm GOARM=6 go build`
+
+# upload to greenhouse-test
+
+`rsync -avz temperature pi@greenhouse-test:greenhouse/temperature`
+
+## Docker
+
+`docker build -t soil-temperature . --platform linux/arm/v7`
+`docker tag soil-temperature:latest mcpomm/greenhouse-soil-temperature:<tag>`
+`docker push mcpomm/greenhouse-soil-temperature:<tag>`
