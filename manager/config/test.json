@@ -7,22 +7,22 @@
   },
   "Apis": {
     "Temperature": {
-      "Endpoint": "http://greenhouse-test:5000/temperature",
+      "Endpoint": "http://localhost:5000",
       "TresholdMin": 20,
       "TresholdMax": 25
     },
     "Humidity": {
-      "Endpoint": "http://greenhouse-test:5100/humidity",
+      "Endpoint": "http://localhost:5100",
       "TresholdMin": 70,
       "TresholdMax": 80
     },
     "SoilMoisture": {
-      "Endpoint": "http://greenhouse-satellite-02:5200",
+      "Endpoint": "http://greenhouse-soil-moisture:5200",
       "TresholdMin": 50,
       "TresholdMax": 80
     },
     "SoilTemperature": {
-      "Endpoint": "http://greenhouse-satellite-01:5300",
+      "Endpoint": "http://localhost:5300",
       "TresholdMin": 18,
       "TresholdMax": 21
     },

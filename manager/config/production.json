@@ -1,24 +1,34 @@
 {
+  "Monitoring":{
+    "ThingSpeakAPI": "https://api.thingspeak.com/update.json",
+    "CheckIntervalMinutes": 5,
+    "CheckIntervalCountPerEvaluation": 10,
+    "TresholdLimitPercentage": 60
+  },
   "Apis": {
     "Temperature": {
-      "Endpoint": "http://greenhouse:5000/temperature",
+      "Endpoint": "http://greenhouse-temperature",
       "TresholdMin": 20,
       "TresholdMax": 25
     },
     "Humidity": {
-      "Endpoint": "http://greenhouse:5100/humidity",
+      "Endpoint": "http://greenhouse-humidity",
       "TresholdMin": 70,
       "TresholdMax": 80
     },
     "SoilMoisture": {
-      "Endpoint": "http://greenhouse-satellite-02:5200",
+      "Endpoint": "http://greenhouse-soil-moisture:5200",
       "TresholdMin": 50,
       "TresholdMax": 80
     },
     "SoilTemperature": {
-      "Endpoint": "http://greenhouse-satellite-01:5300",
+      "Endpoint": "http://greenhouse-soil-temperature",
       "TresholdMin": 18,
-      "TresholdMax": 20
+      "TresholdMax": 21
+    },
+    "WaterPump": {
+      "Endpoint": "http://greenhouse-satellite-03:5400",
+      "PumpDuration": 4
     }
   }
 }

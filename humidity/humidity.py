@@ -7,10 +7,10 @@ import random
 import os
 import logging
 import json
-import time
 import datetime
+import os
 
-PORT = 5100
+PORT = os.environ['PORT']
 dhtDevice = adafruit_dht.DHT22(board.D17)
 
 app = Flask(__name__)
@@ -40,12 +40,7 @@ def _get_humidity():
         raise error
 
 
-@app.route('/')
-def api_root():
-    return 'Humidity sensor DHT11'
-
-
-@app.route('/humidity', methods=['GET'])
+@app.route('/', methods=['GET'])
 def api_humidity():
     data, code = _get_humidity()
     resp = Response(data, status=code, mimetype='application/json')
@@ -53,4 +48,4 @@ def api_humidity():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5100, debug=False)
+    app.run(host="0.0.0.0", port=PORT, debug=False)
