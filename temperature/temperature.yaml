@@ -2,14 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   creationTimestamp: null
-  name: temperature
+  name: greenhouse-temperature
 spec:
   ports:
     - port: 5000
       protocol: TCP
       targetPort: 5000
   selector:
-    run: temperature
+    run: greenhouse-temperature
 status:
   loadBalancer: {}
 ---
@@ -20,15 +20,15 @@ kind: Pod
 metadata:
   creationTimestamp: null
   labels:
-    run: temperature
-  name: temperature
+    run: greenhouse-temperature
+  name: greenhouse-temperature
 spec:
   containers:
     - env:
         - name: PORT
           value: "5000"
       image: mcpomm/greenhouse-temperature:0.0.3
-      name: temperature
+      name: greenhouse-temperature
       ports:
         - containerPort: 5000
       securityContext:

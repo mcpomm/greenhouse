@@ -2,14 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   creationTimestamp: null
-  name: soil-temperature
+  name: greenhouse-soil-temperature
 spec:
   ports:
     - port: 5300
       protocol: TCP
       targetPort: 5300
   selector:
-    run: soil-temperature
+    run: greenhouse-soil-temperature
 status:
   loadBalancer: {}
 ---
@@ -20,15 +20,15 @@ kind: Pod
 metadata:
   creationTimestamp: null
   labels:
-    run: soil-temperature
-  name: soil-temperature
+    run: greenhouse-soil-temperature
+  name: greenhouse-soil-temperature
 spec:
   containers:
     - env:
         - name: PORT
           value: "5300"
       image: mcpomm/greenhouse-soil-temperature:0.0.2
-      name: soil-temperature
+      name: greenhouse-soil-temperature
       ports:
         - containerPort: 5300
       securityContext:

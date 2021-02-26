@@ -12,8 +12,8 @@ except:
 
 moisture = ADC(0)
 
-AirValue = 562
-WaterValue = 134
+FullDry = 566
+FullWet = 137
 
 ntptime.settime()
 machine.RTC().datetime()
@@ -32,18 +32,18 @@ s.bind(('', 5200))
 s.listen(5)
 
 
-def myMap(x, in_min, in_max, out_min, out_max):
-    return (x-in_min)*(out_max-out_min)/(in_max-in_min) + out_min
+def getPercentage(x, wet, dry):
+    return round(float((x - dry) * 100 / (wet - dry)), 2)
 
 
 def getMoisture():
     readtime = 946684800 + utime.time()
     moisture_value = moisture.read()
     print(moisture_value)
-    print('%.2f' % myMap(moisture_value, AirValue, WaterValue, 0, 100), "%")
+    print('%.2f' % getPercentage(moisture_value, FullWet, FullDry), "%")
     soilmoisture["Time"] = str(readtime)
-    soilmoisture["Value"] = str('%.2f' % myMap(
-        moisture_value, AirValue, WaterValue, 0, 100))
+    soilmoisture["Value"] = str(
+        '%.2f' % getPercentage(moisture_value, FullWet, FullDry))
     return ujson.dumps(soilmoisture)
 
 
