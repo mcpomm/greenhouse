@@ -1,17 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   name: greenhouse-soil-temperature
 spec:
+  type: NodePort
   ports:
     - port: 5300
       protocol: TCP
       targetPort: 5300
   selector:
     run: greenhouse-soil-temperature
-status:
-  loadBalancer: {}
 ---
 
 ---

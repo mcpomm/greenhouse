@@ -1,1 +1,4 @@
 .DS_Store
+manager/manager
+temperature/temperature
+soil-temperature/golang-docker/soil-temperature

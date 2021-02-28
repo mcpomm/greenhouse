@@ -1,17 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   name: greenhouse-humidity
 spec:
+  type: NodePort
   ports:
     - port: 5100
       protocol: TCP
       targetPort: 5100
   selector:
     run: greenhouse-humidity
-status:
-  loadBalancer: {}
 ---
 
 ---
