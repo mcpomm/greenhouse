@@ -1,5 +1,6 @@
 FROM arm32v7/golang:latest AS builder
 WORKDIR /usr/src/build
+# not needed
 RUN go get -d -v golang.org/x/net/html  
 COPY . .
 RUN GOOS=linux GOARCH=arm GOARM=6 go build  .

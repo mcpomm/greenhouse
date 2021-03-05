@@ -16,13 +16,6 @@ var humidityEndpoint string
 var soilMoistureEndpoint string
 var soilTemperatureEndpoint string
 
-var temperatureAPIKey = os.Getenv("TEMPERATURE_API_KEY")
-var humidityAPIKey = os.Getenv("HUMIDITY_API_KEY")
-var soilMoistureAPIKey = os.Getenv("SOIL_MOISTURE_API_KEY")
-var soilTemperatureAPIKey = os.Getenv("SOIL_TEMPERATURE_API_KEY")
-
-var c chan int
-
 // SensorData ...
 type SensorData struct {
 	ID    string `json:"ID"`
@@ -37,6 +30,7 @@ func main() {
 	if err != nil {
 		log.Printf("Cannot load config: %s", err.Error())
 	}
+	InitializeTriggerPins()
 	runSensorCheck(config)
 }
 
