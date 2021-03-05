@@ -17,9 +17,13 @@ def initialize_gpio_pins():
 
 
 def soil_watering(trigger_duration):
-    logging.info(f"Activate soil watering for {trigger_duration} seconds")
-    logging.info("Start soil watering")
-    soil_watering_pin.off()
-    sleep(trigger_duration)
-    soil_watering_pin.on()
-    logging.info("Stop soil watering")
+    _do_trigger(soil_watering_pin, "soil watering", trigger_duration)
+
+
+def _do_trigger(pin, action, duration):
+    logging.info(f"Activate {action} for {duration} seconds")
+    logging.info(f"Start {action}")
+    pin.off()
+    sleep(duration)
+    pin.on()
+    logging.info(f"Stop {action}")
