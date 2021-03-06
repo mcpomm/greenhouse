@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: greenhouse-trigger
+  name: greenhouse-trigger
+spec:
+  ports:
+    - port: 5400
+      protocol: TCP
+      targetPort: 5400
+  selector:
+    app: greenhouse-trigger
+  type: NodePort
+status:
+  loadBalancer: {}
+---
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: greenhouse-trigger
+  name: greenhouse-trigger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greenhouse-trigger
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: greenhouse-trigger
+    spec:
+      containers:
+        - image: mcpomm/greenhouse-trigger:0.0.12
+          name: greenhouse-trigger
+          ports:
+            - containerPort: 5400
+              protocol: TCP
+          securityContext:
+            privileged: true
+          resources: {}
+status: {}

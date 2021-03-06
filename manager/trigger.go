@@ -26,7 +26,7 @@ func TriggerWaterTankFill() {
 func TriggerSoilWatering(config Configuration) {
 	log.Println("Trigger soil watering.")
 	waterPumpEndpoint := config.Apis.WaterPump.Endpoint
-	values := map[string]int{"pumpDuration": config.Apis.WaterPump.PumpDuration}
+	values := map[string]int{"duration": config.Apis.WaterPump.PumpDuration}
 	jsonData, _ := json.Marshal(values)
 
 	response, err := http.Post(waterPumpEndpoint, "application/json", bytes.NewBuffer(jsonData))

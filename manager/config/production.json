@@ -27,7 +27,7 @@
       "TresholdMax": 21
     },
     "WaterPump": {
-      "Endpoint": "http://greenhouse-satellite-03:5400",
+      "Endpoint": "http://greenhouse-trigger:5400/soil-watering/trigger",
       "PumpDuration": 4
     }
   }

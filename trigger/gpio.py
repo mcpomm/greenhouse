@@ -1,3 +1,4 @@
+from gpiozero.pins.native import NativeFactory
 from gpiozero import LED
 from time import sleep
 import logging
@@ -7,8 +8,8 @@ logging.basicConfig(
     level=logging.INFO,
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-
-soil_watering_pin = LED(21)
+factory = NativeFactory()
+soil_watering_pin = LED(21, pin_factory=factory)
 
 
 def initialize_gpio_pins():
