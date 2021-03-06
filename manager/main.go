@@ -30,7 +30,6 @@ func main() {
 	if err != nil {
 		log.Printf("Cannot load config: %s", err.Error())
 	}
-	InitializeTriggerPins()
 	runSensorCheck(config)
 }
 
