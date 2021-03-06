@@ -10,7 +10,7 @@ spec:
     - env:
         - name: CONFIG
           value: production
-      image: mcpomm/greenhouse-manager:0.0.8
+      image: mcpomm/greenhouse-manager:0.0.9
       name: greenhouse-manager
       envFrom:
         - secretRef:

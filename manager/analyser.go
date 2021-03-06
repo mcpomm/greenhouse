@@ -21,14 +21,15 @@ var soilTemperatureMaxCheckList []int
 // HandleAnalyse ...
 func HandleAnalyse(min int, max int, current int, sensor string) {
 	switch {
+	case current > max:
+		setMax(0, sensor)
+		setMin(1, sensor)
 	case current < min:
 		setMin(0, sensor)
 		setMax(1, sensor)
 	case current > min, current < max:
 		setMin(1, sensor)
 		setMax(1, sensor)
-	case current > max:
-		setMax(0, sensor)
 	}
 	log.Printf("Analyse %s results", strings.ToLower(sensor))
 	log.Printf("The current %s results are %d %% above the minimum treshold.", strings.ToLower(sensor), AnalyseMin(sensor))
