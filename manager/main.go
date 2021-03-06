@@ -105,21 +105,20 @@ func evaluateAnalysis(s string, c Configuration) {
 	case "Temperature":
 		if evaluationMax <= c.Monitoring.TresholdLimitPercentage {
 			log.Println("The temperature must be reduced.")
-			TriggerFans()
+			TriggerFans(c)
 		} else if evaluationMin <= c.Monitoring.TresholdLimitPercentage {
 			log.Println("The temperature must be increased.")
-			TriggerAirHeating()
-
+			TriggerAirHeating(c)
 		} else {
 			log.Println("The temperature is within the treshold limits.")
 		}
 	case "Humidity":
 		if evaluationMax <= c.Monitoring.TresholdLimitPercentage {
 			log.Println("The humidity must be reduced.")
-			TriggerFans()
+			TriggerFans(c)
 		} else if evaluationMin <= c.Monitoring.TresholdLimitPercentage {
 			log.Println("The humidity must be increased.")
-			TriggerWaterTankFill()
+			TriggerWaterTankFill(c)
 		} else {
 			log.Println("The humidity is within the treshold limits.")
 		}
@@ -137,7 +136,7 @@ func evaluateAnalysis(s string, c Configuration) {
 			log.Println("The soil temperature must be reduced.")
 		} else if evaluationMin <= c.Monitoring.TresholdLimitPercentage {
 			log.Println("The soil temperature must be increased.")
-			TriggerSoilHeating()
+			TriggerSoilHeating(c)
 		} else {
 			log.Println("The soil temperature is within the treshold limits.")
 		}

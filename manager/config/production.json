@@ -26,9 +26,25 @@
       "TresholdMin": 18,
       "TresholdMax": 21
     },
-    "WaterPump": {
+    "WaterPump01": {
       "Endpoint": "http://greenhouse-trigger:5400/soil-watering/trigger",
-      "PumpDuration": 4
+      "Duration": 4
+    },
+    "HeatingPad": {
+      "Endpoint": "http://greenhouse-trigger:5400/soil-heating/trigger",
+      "Duration": 4
+    },
+    "Fan": {
+      "Endpoint": "http://greenhouse-trigger:5400/fan/trigger",
+      "Duration": 4
+    },
+    "Heating": {
+      "Endpoint": "http://greenhouse-trigger:5400/air-heating/trigger",
+      "Duration": 4
+    },
+    "WaterPump02": {
+      "Endpoint": "http://greenhouse-trigger:5400/tank-filling/trigger",
+      "Duration": 4
     }
   }
 }

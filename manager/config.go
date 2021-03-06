@@ -42,10 +42,26 @@ type Configuration struct {
 			TresholdMin int    `json:"TresholdMin"`
 			TresholdMax int    `json:"TresholdMax"`
 		} `json:"SoilTemperature"`
-		WaterPump struct {
-			Endpoint     string `json:"Endpoint"`
-			PumpDuration int    `json:"PumpDuration"`
-		} `json:"WaterPump"`
+		WaterPump01 struct {
+			Endpoint string `json:"Endpoint"`
+			Duration int    `json:"Duration"`
+		} `json:"WaterPump01"`
+		HeatingPad struct {
+			Endpoint string `json:"Endpoint"`
+			Duration int    `json:"Duration"`
+		} `json:"HeatingPad"`
+		Fan struct {
+			Endpoint string `json:"Endpoint"`
+			Duration int    `json:"Duration"`
+		} `json:"Fan"`
+		Heating struct {
+			Endpoint string `json:"Endpoint"`
+			Duration int    `json:"Duration"`
+		} `json:"Heating"`
+		WaterPump02 struct {
+			Endpoint string `json:"Endpoint"`
+			Duration int    `json:"Duration"`
+		} `json:"WaterPump02"`
 	} `json:"Apis"`
 }
 
