@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: greenhouse-manager
+  name: greenhouse-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greenhouse-manager
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: greenhouse-manager
+    spec:
+      containers:
+        - env:
+            - name: CONFIG
+              value: production
+          image: mcpomm/greenhouse-manager:0.0.9
+          name: greenhouse-manager
+          envFrom:
+            - secretRef:
+                name: thing-speak-secret
+          securityContext:
+            privileged: true
+status: {}
