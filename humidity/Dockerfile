@@ -8,9 +8,10 @@ RUN apt-get update \
   # && pip install --upgrade setuptools \
   && pip install RPI.GPIO \
   && pip install adafruit-circuitpython-dht \
-  && pip install flask
+  && pip install flask \
+  && pip install gunicorn
 
 COPY humidity.py ./
+COPY wsgi.py ./
 
-RUN chmod +x ./humidity.py
-CMD ["python","./humidity.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5100", "wsgi:app"]

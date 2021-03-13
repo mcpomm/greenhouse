@@ -39,3 +39,9 @@ $ sudo apt-get install libgpiod2
 ## upload to greenhouse-test
 
 `rsync -avz humidity.py pi@greenhouse-test:greenhouse/humidity`
+
+## Docker
+
+`$ docker buildx build -t greenhouse-humidity . --platform linux/arm/v7`
+`$ docker tag greenhouse-humidity:latest mcpomm/greenhouse-humidity:<tag>`
+`$ docker push mcpomm/greenhouse-humidity:<tag>`

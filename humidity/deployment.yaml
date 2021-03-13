@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: greenhouse-humidity
+  name: greenhouse-humidity
+spec:
+  ports:
+    - port: 5100
+      protocol: TCP
+      targetPort: 5100
+  selector:
+    app: greenhouse-humidity
+  type: NodePort
+---
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: greenhouse-humidity
+  name: greenhouse-humidity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greenhouse-humidity
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: greenhouse-humidity
+    spec:
+      containers:
+        - image: mcpomm/greenhouse-humidity:0.1.1
+          env:
+            - name: PORT
+              value: "5100"
+          name: greenhouse-humidity
+          ports:
+            - containerPort: 5100
+              protocol: TCP
+          securityContext:
+            privileged: true
+          resources: {}
+status: {}
