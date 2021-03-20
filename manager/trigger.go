@@ -9,27 +9,27 @@ import (
 
 // TriggerFans ...
 func TriggerFans(config Configuration) {
-	_trigger("fan", config.Apis.Fan.Endpoint, config.Apis.Fan.Duration)
+	_trigger("fan", config.Apis.Trigger.Fan.Endpoint, config.Apis.Trigger.Fan.Duration)
 }
 
 // TriggerAirHeating ...
 func TriggerAirHeating(config Configuration) {
-	_trigger("air heating", config.Apis.Heating.Endpoint, config.Apis.Heating.Duration)
+	_trigger("air heating", config.Apis.Trigger.Heating.Endpoint, config.Apis.Trigger.Heating.Duration)
 }
 
 // TriggerWaterTankFill ...
 func TriggerWaterTankFill(config Configuration) {
-	_trigger("tank filling", config.Apis.WaterPump02.Endpoint, config.Apis.WaterPump02.Duration)
+	_trigger("tank filling", config.Apis.Trigger.WaterPump02.Endpoint, config.Apis.Trigger.WaterPump02.Duration)
 }
 
 // TriggerSoilWatering ...
 func TriggerSoilWatering(config Configuration) {
-	_trigger("soil watering", config.Apis.WaterPump01.Endpoint, config.Apis.WaterPump01.Duration)
+	_trigger("soil watering", config.Apis.Trigger.WaterPump01.Endpoint, config.Apis.Trigger.WaterPump01.Duration)
 }
 
 // TriggerSoilHeating ...
 func TriggerSoilHeating(config Configuration) {
-	_trigger("soil heating", config.Apis.HeatingPad.Endpoint, config.Apis.HeatingPad.Duration)
+	_trigger("soil heating", config.Apis.Trigger.HeatingPad.Endpoint, config.Apis.Trigger.HeatingPad.Duration)
 }
 
 func _trigger(action string, endpoint string, duration int) {

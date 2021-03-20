@@ -1,34 +1,54 @@
 {
-  "Monitoring":{
+  "Monitoring": {
     "ThingSpeakAPI": "https://api.thingspeak.com/update.json",
-    "CheckIntervalMinutes": 5,
+    "CheckIntervalMinutes": 1,
     "CheckIntervalCountPerEvaluation": 10,
     "TresholdLimitPercentage": 60
   },
   "Apis": {
-    "Temperature": {
-      "Endpoint": "http://localhost:5000",
-      "TresholdMin": 20,
-      "TresholdMax": 25
+    "Sensors": {
+      "Temperature": {
+        "Endpoint": "http://greenhouse:31711",
+        "TresholdMin": 20,
+        "TresholdMax": 25
+      },
+      "Humidity": {
+        "Endpoint": "http://greenhouse:30656",
+        "TresholdMin": 70,
+        "TresholdMax": 80
+      },
+      "SoilMoisture": {
+        "Endpoint": "http://greenhouse-soil-moisture:5200",
+        "TresholdMin": 50,
+        "TresholdMax": 80
+      },
+      "SoilTemperature": {
+        "Endpoint": "http://greenhouse:31685",
+        "TresholdMin": 18,
+        "TresholdMax": 21
+      }
     },
-    "Humidity": {
-      "Endpoint": "http://localhost:5100",
-      "TresholdMin": 70,
-      "TresholdMax": 80
-    },
-    "SoilMoisture": {
-      "Endpoint": "http://greenhouse-soil-moisture:5200",
-      "TresholdMin": 50,
-      "TresholdMax": 80
-    },
-    "SoilTemperature": {
-      "Endpoint": "http://localhost:5300",
-      "TresholdMin": 18,
-      "TresholdMax": 21
-    },
-    "WaterPump": {
-      "Endpoint": "http://greenhouse-satellite-03:5400",
-      "PumpDuration": 4
+    "Trigger": {
+      "WaterPump01": {
+        "Endpoint": "http://greenhouse:30182/soil-watering/trigger",
+        "Duration": 4
+      },
+      "HeatingPad": {
+        "Endpoint": "http://greenhouse:30182/soil-heating/trigger",
+        "Duration": 4
+      },
+      "Fan": {
+        "Endpoint": "http://greenhouse:30182/fan/trigger",
+        "Duration": 4
+      },
+      "Heating": {
+        "Endpoint": "http://greenhouse:30182/air-heating/trigger",
+        "Duration": 4
+      },
+      "WaterPump02": {
+        "Endpoint": "http://greenhouse:30182/tank-filling/trigger",
+        "Duration": 4
+      }
     }
   }
 }
