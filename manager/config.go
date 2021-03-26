@@ -70,11 +70,11 @@ type Configuration struct {
 }
 
 // Config ...
-func Config() (Configuration, error) {
-	byteValue, err := readConfigFile()
+func Config() (Configuration, []byte, error) {
+	jsonFile, err := readConfigFile()
 	var conf Configuration
-	json.Unmarshal(byteValue, &conf)
-	return conf, err
+	json.Unmarshal(jsonFile, &conf)
+	return conf, jsonFile, err
 }
 
 func readConfigFile() ([]byte, error) {
@@ -97,7 +97,7 @@ func getConfigName() string {
 // GetTresholdValues ...
 func GetTresholdValues(field string, c *Configuration) (int, int) {
 	r := reflect.ValueOf(c)
-	min := reflect.Indirect(r).FieldByName("Apis").FieldByName(field).FieldByName("TresholdMin")
-	max := reflect.Indirect(r).FieldByName("Apis").FieldByName(field).FieldByName("TresholdMax")
+	min := reflect.Indirect(r).FieldByName("Apis").FieldByName("Sensors").FieldByName(field).FieldByName("TresholdMin")
+	max := reflect.Indirect(r).FieldByName("Apis").FieldByName("Sensors").FieldByName(field).FieldByName("TresholdMax")
 	return int(min.Int()), int(max.Int())
 }

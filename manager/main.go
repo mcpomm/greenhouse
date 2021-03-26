@@ -1,54 +1,31 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"strconv"
 	"time"
 )
 
-var temperatureEndpoint string
-var humidityEndpoint string
-var soilMoistureEndpoint string
-var soilTemperatureEndpoint string
-
-// SensorData ...
-type SensorData struct {
-	ID    string `json:"ID"`
-	Name  string `json:"Name"`
-	Value string `json:"Value"`
-	Unit  string `json:"Unit"`
-	Time  string `json:"Time"`
-}
-
 func main() {
-	config, err := Config()
+	config, jsonconfig, err := Config()
 	if err != nil {
 		log.Printf("Cannot load config: %s", err.Error())
 	}
-	runSensorCheck(config)
+	runSensorCheck(config, jsonconfig)
 }
 
-func runSensorCheck(config Configuration) {
+func runSensorCheck(config Configuration, j []byte) {
 	counter := 0
-
-	// Sensor Endpoints
-	temperatureEndpoint = config.Apis.Sensors.Temperature.Endpoint
-	humidityEndpoint = config.Apis.Sensors.Humidity.Endpoint
-	soilMoistureEndpoint = config.Apis.Sensors.SoilMoisture.Endpoint
-	soilTemperatureEndpoint = config.Apis.Sensors.SoilTemperature.Endpoint
 
 	for range time.Tick(config.Monitoring.CheckIntervalMinutes * time.Minute) {
 		counter++
 
-		temperature, _ := getSensordata(temperatureEndpoint)
-		humidity, _ := getSensordata(humidityEndpoint)
-		soilMoisture, _ := getSensordata(soilMoistureEndpoint)
-		soilTemperature, _ := getSensordata(soilTemperatureEndpoint)
+		temperature, _ := Sensor{Name: "Temperature"}.GetData(j)
+		humidity, _ := Sensor{Name: "Humidity"}.GetData(j)
+		soilMoisture, _ := Sensor{Name: "SoilMoisture"}.GetData(j)
+		soilTemperature, _ := Sensor{Name: "SoilTemperature"}.GetData(j)
 
 		ThingSpeak(
 			config,
@@ -77,15 +54,7 @@ func runSensorCheck(config Configuration) {
 	}
 }
 
-func getSensordata(endpoint string) (SensorData, error) {
-	response, err := http.Get(endpoint)
-	responseData, err := ioutil.ReadAll(response.Body)
-	var responseObject SensorData
-	json.Unmarshal(responseData, &responseObject)
-	return responseObject, err
-}
-
-func handleSensordata(s string, d SensorData, c Configuration) {
+func handleSensordata(s string, d Sensor, c Configuration) {
 	minValue, maxValue := GetTresholdValues(s, &c)
 	fmt.Println()
 	log.Println("Check", s)
