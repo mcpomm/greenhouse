@@ -13,22 +13,22 @@ func main() {
 	if err != nil {
 		log.Printf("Cannot load config: %s", err.Error())
 	}
-	runSensorCheck(config, jsonconfig)
+	runSensorCheck(&config, jsonconfig)
 }
 
-func runSensorCheck(config Configuration, j []byte) {
+func runSensorCheck(config *Configuration, j []byte) {
 	counter := 0
 
 	for range time.Tick(config.Monitoring.CheckIntervalMinutes * time.Minute) {
 		counter++
 
-		temperature, _ := Sensor{Name: "Temperature"}.GetData(j)
-		humidity, _ := Sensor{Name: "Humidity"}.GetData(j)
-		soilMoisture, _ := Sensor{Name: "SoilMoisture"}.GetData(j)
-		soilTemperature, _ := Sensor{Name: "SoilTemperature"}.GetData(j)
+		temperature, _ := Sensor{Name: "Temperature"}.GetData(*config)
+		humidity, _ := Sensor{Name: "Humidity"}.GetData(*config)
+		soilMoisture, _ := Sensor{Name: "SoilMoisture"}.GetData(*config)
+		soilTemperature, _ := Sensor{Name: "SoilTemperature"}.GetData(*config)
 
 		ThingSpeak(
-			config,
+			*config,
 			Payload{
 				APIKey: os.Getenv("THING_SPEAK_API_KEY"),
 				Field1: temperature.Value,
@@ -36,26 +36,26 @@ func runSensorCheck(config Configuration, j []byte) {
 				Field3: soilMoisture.Value,
 				Field4: soilTemperature.Value})
 
-		handleSensordata("Temperature", temperature, config)
-		handleSensordata("Humidity", humidity, config)
-		handleSensordata("SoilMoisture", soilMoisture, config)
-		handleSensordata("SoilTemperature", soilTemperature, config)
+		handleSensordata("Temperature", temperature, *config)
+		handleSensordata("Humidity", humidity, *config)
+		handleSensordata("SoilMoisture", soilMoisture, *config)
+		handleSensordata("SoilTemperature", soilTemperature, *config)
 
 		PrintAnalysisLists()
 
 		if counter == config.Monitoring.CheckIntervalCountPerEvaluation {
 			counter = 0
-			evaluateAnalysis("Temperature", config)
-			evaluateAnalysis("Humidity", config)
-			evaluateAnalysis("SoilMoisture", config)
-			evaluateAnalysis("SoilTemperature", config)
+			evaluateAnalysis("Temperature", *config)
+			evaluateAnalysis("Humidity", *config)
+			evaluateAnalysis("SoilMoisture", *config)
+			evaluateAnalysis("SoilTemperature", *config)
 			CleanAnalysis()
 		}
 	}
 }
 
 func handleSensordata(s string, d Sensor, c Configuration) {
-	minValue, maxValue := GetTresholdValues(s, &c)
+	minValue, maxValue := Sensor{Name: s}.GetThresholdValues(c)
 	fmt.Println()
 	log.Println("Check", s)
 	log.Println("----------------------")
