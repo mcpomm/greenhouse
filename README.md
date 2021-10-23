@@ -58,7 +58,7 @@ Apply the Ansible Playbook in order to install Kubernetes on you Raspberry.
 
     $ ansible-playbook raspberry.yaml
 
-## Authenticate and Authorize an External User
+# Authenticate and Authorize an External User
 
 Log into rasbperry and copy the content of the following cert file: /etc/kubernetes/pki/ca.crt and save it temporarily locally in a text file.
 Then encode the text in the file locally as a base64 string:
