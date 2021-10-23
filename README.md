@@ -33,7 +33,7 @@ https://desertbot.io/blog/headless-raspberry-pi-4-ssh-wifi-setup
 1.  Log into the Raspberry, create the file ~/.ssh/authorized_keys(if not already present) and add the contents of your public key file (e.g. /.ssh/id_rsa ).
 2.  You can change the hosfile with the follofing command
 
-        $ sudo hostnamectl set-hostname greenhouse
+        $ sudo hostnamectl set-hostname greenhouse-proto
         $ sudo reboot
 
 ## Install Kubernetes via Ansible
@@ -57,3 +57,39 @@ Add you SSH private key into the SSH authentication agent.
 Apply the Ansible Playbook in order to install Kubernetes on you Raspberry.
 
     $ ansible-playbook raspberry.yaml
+
+## Authenticate and Authorize an External User
+
+Log into rasbperry and copy the content of the following cert file: /etc/kubernetes/pki/ca.crt and save it temporarily locally in a text file.
+Then encode the text in the file locally as a base64 string:
+
+    echo '<text from file>' | grep base64
+
+Then use the base64 encoded string for a new cluster entry in the local ./kube/config.
+
+    - cluster:
+        certificate-authority-data:<base64 encodet string>
+        server: https://greenhouse-proto:6443
+      name: greenhouse-proto
+
+Copy the following files via scp
+
+    scp ubuntu@greenhouse-proto:/home/greenhouse/.certs/greenhouse.crt ~/<your local folder>/greenhouse.crt
+
+    scp ubuntu@greenhouse-proto:/home/greenhouse/.certs/greenhouse.key ~/<your local folder>/greenhouse.key
+
+Add the user and credentials to the kubeconfig file
+
+    kubectl config set-credentials greenhouse-proto \
+    --client-certificate=<your local folder>/greenhouse.crt \
+    --client-key=<your local folder>/greenhouse.key
+
+Add a new context for the new user in kubeconfig
+
+    kubectl config set-context greenhouse-proto \
+    --cluster=greenhouse-proto \
+    --user=greenhouse-proto
+
+Log in to the Rasbperry and assign admin privileges to the greenhous user:
+
+    kubectl create clusterrolebinding greenhouse-proto --clusterrole=cluster-admin --user=greenhouse

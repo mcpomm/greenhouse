@@ -6,163 +6,163 @@
   vars_files:
     - "{{ src_dir }}/config/raspberry-config.yml"
   tasks:
+    # # ###################################################################
+    # # # General
+    # # ###################################################################
+    # - name: Letting iptables see bridged traffic
+    #   modprobe:
+    #     name: br_netfilter
+
+    # - name: Make sure that the br_netfilter module is loaded
+    #   shell: lsmod | grep br_netfilter
+    #   ignore_errors: yes
+    #   register: command_output
+
+    # - name: Print br_netfilter activation
+    #   debug:
+    #     msg: "{{command_output.stdout.split('\n')}}"
     # ###################################################################
-    # # General
+    # # Docker
     # ###################################################################
-    - name: Letting iptables see bridged traffic
-      modprobe:
-        name: br_netfilter
+    # - name: Install Docker and containerd
+    #   apt:
+    #     name: "{{ packages }}"
+    #     state: present
+    #     update_cache: yes
+    #   vars:
+    #     packages:
+    #       - docker.io
+    #       - containerd
 
-    - name: Make sure that the br_netfilter module is loaded
-      shell: lsmod | grep br_netfilter
-      ignore_errors: yes
-      register: command_output
+    # - name: "Create docker dir"
+    #   file:
+    #     path: /etc/docker
+    #     state: directory
 
-    - name: Print br_netfilter activation
-      debug:
-        msg: "{{command_output.stdout.split('\n')}}"
-    ###################################################################
-    # Docker
-    ###################################################################
-    - name: Install Docker and containerd
-      apt:
-        name: "{{ packages }}"
-        state: present
-        update_cache: yes
-      vars:
-        packages:
-          - docker.io
-          - containerd
+    # - name: Write Docker daemon configuration
+    #   copy:
+    #     dest: "/etc/docker/daemon.json"
+    #     content: |
+    #       {
+    #         "exec-opts": ["native.cgroupdriver=systemd"],
+    #         "log-driver": "json-file",
+    #         "log-opts": {
+    #           "max-size": "100m"
+    #         },
+    #         "storage-driver": "overlay2"
+    #       }
 
-    - name: "Create docker dir"
-      file:
-        path: /etc/docker
-        state: directory
+    # - name: Enable service docker
+    #   systemd:
+    #     name: docker
+    #     enabled: yes
 
-    - name: Write Docker daemon configuration
-      copy:
-        dest: "/etc/docker/daemon.json"
-        content: |
-          {
-            "exec-opts": ["native.cgroupdriver=systemd"],
-            "log-driver": "json-file",
-            "log-opts": {
-              "max-size": "100m"
-            },
-            "storage-driver": "overlay2"
-          }
+    # - name: Reload daemon
+    #   systemd:
+    #     daemon_reload: yes
 
-    - name: Enable service docker
-      systemd:
-        name: docker
-        enabled: yes
+    # - name: Restart Docker
+    #   systemd:
+    #     state: restarted
+    #     daemon_reload: yes
+    #     name: docker
 
-    - name: Reload daemon
-      systemd:
-        daemon_reload: yes
+    # - name: Add {{ user }} user to docker group
+    #   user:
+    #     name: "{{ user }}"
+    #     group: docker
 
-    - name: Restart Docker
-      systemd:
-        state: restarted
-        daemon_reload: yes
-        name: docker
+    # ###################################################################
+    # # Kubernetes
+    # ###################################################################
+    # - name: Add an apt signing key for Kubernetes
+    #   apt_key:
+    #     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    #     state: present
 
-    - name: Add {{ user }} user to docker group
-      user:
-        name: "{{ user }}"
-        group: docker
+    # - name: Adding apt repository for Kubernetes
+    #   apt_repository:
+    #     repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    #     state: present
+    #     filename: kubernetes.list
 
-    ###################################################################
-    # Kubernetes
-    ###################################################################
-    - name: Add an apt signing key for Kubernetes
-      apt_key:
-        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        state: present
+    # - name: read the cmdline file
+    #   shell: cat /boot/firmware/cmdline.txt
+    #   register: cmdline
 
-    - name: Adding apt repository for Kubernetes
-      apt_repository:
-        repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
-        state: present
-        filename: kubernetes.list
+    # - name: Install Kubernetes binaries
+    #   apt:
+    #     name: "{{ packages }}"
+    #     state: present
+    #     update_cache: yes
+    #   vars:
+    #     packages:
+    #       - kubelet
+    #       - kubeadm
+    #       - kubectl
+    #   when: cmdline.stdout.find('cgroup_enable=memory') == -1
 
-    - name: read the cmdline file
-      shell: cat /boot/firmware/cmdline.txt
-      register: cmdline
+    # - name: Setup Linux Control Groups
+    #   lineinfile:
+    #     path: /boot/firmware/cmdline.txt
+    #     regexp: "net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc"
+    #     line: net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory
+    #     state: present
+    #   when: cmdline.stdout.find('cgroup_enable=memory') == -1
 
-    - name: Install Kubernetes binaries
-      apt:
-        name: "{{ packages }}"
-        state: present
-        update_cache: yes
-      vars:
-        packages:
-          - kubelet
-          - kubeadm
-          - kubectl
-      when: cmdline.stdout.find('cgroup_enable=memory') == -1
+    # - name: Reboot host and wait for it to restart
+    #   reboot:
+    #     msg: "Reboot initiated by Ansible"
+    #     connect_timeout: 5
+    #     reboot_timeout: 600
+    #     pre_reboot_delay: 0
+    #     post_reboot_delay: 30
+    #     test_command: whoami
+    #   when: cmdline.stdout.find('cgroup_enable=memory') == -1
 
-    - name: Setup Linux Control Groups
-      lineinfile:
-        path: /boot/firmware/cmdline.txt
-        regexp: "net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc"
-        line: net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory
-        state: present
-      when: cmdline.stdout.find('cgroup_enable=memory') == -1
+    # - name: Check if manifests folder exists.
+    #   stat:
+    #     path: /etc/kubernetes/manifests
+    #   register: k8s_manifests
 
-    - name: Reboot host and wait for it to restart
-      reboot:
-        msg: "Reboot initiated by Ansible"
-        connect_timeout: 5
-        reboot_timeout: 600
-        pre_reboot_delay: 0
-        post_reboot_delay: 30
-        test_command: whoami
-      when: cmdline.stdout.find('cgroup_enable=memory') == -1
+    # - name: Initialize the cluster
+    #   shell: kubeadm init
+    #   when: not k8s_manifests.stat.isdir is defined and not k8s_manifests.stat.isdir
 
-    - name: Check if manifests folder exists.
-      stat:
-        path: /etc/kubernetes/manifests
-      register: k8s_manifests
+    # - name: Create .kube directory
+    #   become: yes
+    #   become_user: ubuntu
+    #   file:
+    #     path: $HOME/.kube
+    #     state: directory
+    #     mode: 0755
 
-    - name: Initialize the cluster
-      shell: kubeadm init
-      when: not k8s_manifests.stat.isdir is defined and not k8s_manifests.stat.isdir
+    # - name: Check if admin.conf file exists.
+    #   stat:
+    #     path: /etc/kubernetes/admin.conf
+    #   register: k8s_conf
 
-    - name: Create .kube directory
-      become: yes
-      become_user: ubuntu
-      file:
-        path: $HOME/.kube
-        state: directory
-        mode: 0755
+    # - name: Copy admin.conf to user's kube config
+    #   copy:
+    #     src: /etc/kubernetes/admin.conf
+    #     dest: /home/ubuntu/.kube/config
+    #     remote_src: yes
+    #     owner: ubuntu
+    #   when: k8s_conf.stat.exists
 
-    - name: Check if admin.conf file exists.
-      stat:
-        path: /etc/kubernetes/admin.conf
-      register: k8s_conf
+    # - name: Reset ssh connection to allow user changes to affect 'current login user'
+    #   meta: reset_connection
 
-    - name: Copy admin.conf to user's kube config
-      copy:
-        src: /etc/kubernetes/admin.conf
-        dest: /home/ubuntu/.kube/config
-        remote_src: yes
-        owner: ubuntu
-      when: k8s_conf.stat.exists
+    # - name: Check if weave folder exists.
+    #   stat:
+    #     path: /var/lib/weave
+    #   register: weave
 
-    - name: Reset ssh connection to allow user changes to affect 'current login user'
-      meta: reset_connection
-
-    - name: Check if weave folder exists.
-      stat:
-        path: /var/lib/weave
-      register: weave
-
-    - name: Apply CNI plugin
-      become: yes
-      become_user: ubuntu
-      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-      when: not weave.stat.isdir is defined
+    # - name: Apply CNI plugin
+    #   become: yes
+    #   become_user: ubuntu
+    #   shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+    #   when: not weave.stat.isdir is defined
 
     ###################################################################
     # Kubernetes User
@@ -173,38 +173,40 @@
         comment: greenhouse user
         group: admin
 
-    - name: Check if the .ssl folder exists for the greenhouse user
+    - name: Check if the .ssh folder exists for the greenhouse user
       stat:
-        path: /home/greenhouse/.ssl
-      register: ssl_folder
+        path: /home/greenhouse/.certs
+      register: certs_folder
 
-    - name: Create .ssl directory for the greenhouse user
+    - name: Create .ssh directory for the greenhouse user
       become: yes
       become_user: root
       file:
-        path: /home/greenhouse/.ssl
+        path: /home/greenhouse/.certs
         owner: greenhouse
         group: greenhouse
         state: directory
         mode: 0755
-      when: not ssl_folder.stat.isdir is defined
+      #when: not ssl_folder.stat.isdir is defined
 
     - name: Generate an OpenSSL private key for the greenhouse user
       openssl_privatekey:
-        path: /home/greenhouse/.ssl/greenhouse.key
-      when: not ssl_folder.stat.isdir is defined
+        path: /home/greenhouse/.certs/greenhouse.key
+      #when: not ssl_folder.stat.isdir is defined
 
     - name: Generate an OpenSSL Certificate Signing Request for the greenhouse user
       community.crypto.openssl_csr:
-        path: /home/greenhouse/.ssl/greenhouse.csr
-        privatekey_path: /home/greenhouse/.ssl/greenhouse.key
+        path: /home/greenhouse/.certs/greenhouse.csr
+        privatekey_path: /home/greenhouse/.certs/greenhouse.key
         common_name: greenhouse
-      when: not ssl_folder.stat.isdir is defined
+      #when: not ssl_folder.stat.isdir is defined
 
     - name: Generate a Self Signed OpenSSL certificate for the greenhouse user
-      openssl_certificate:
-        path: /home/greenhouse/.ssl/greenhouse.crt
-        privatekey_path: /home/greenhouse/.ssl/greenhouse.key
-        csr_path: /home/greenhouse/.ssl/greenhouse.csr
-        provider: selfsigned
-      when: not ssl_folder.stat.isdir is defined
+      become: yes
+      community.crypto.x509_certificate:
+        path: /home/greenhouse/.certs/greenhouse.crt
+        csr_path: /home/greenhouse/.certs/greenhouse.csr
+        ownca_path: /etc/kubernetes/pki/ca.crt
+        ownca_privatekey_path: /etc/kubernetes/pki/ca.key
+        provider: ownca
+      #when: not ssl_folder.stat.isdir is defined
