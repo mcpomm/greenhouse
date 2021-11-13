@@ -15,7 +15,7 @@ https://desertbot.io/blog/headless-raspberry-pi-4-ssh-wifi-setup
 
 ## Setup authorized keys and hostname
 
-1.  Log into the Raspberry, create the file ~/.ssh/authorized_keys(if not already present) and add the contents of your public key file (e.g. /.ssh/id_rsa ).
+1.  Log into the Raspberry, create the file ~/.ssh/authorized_keys(if not already present) and add the contents of your public key file (e.g. ~/.ssh/id_rsa_pub ).
 2.  You can change the hosfile with the follofing command
 
         $ sudo hostnamectl set-hostname greenhouse-proto
