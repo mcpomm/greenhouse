@@ -4,26 +4,11 @@
 
 https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview
 
-## Headless Raspberry Pi 4 SSH WiFi Setup
+## Setup Wi-Fi directly from your SD card
 
-Enable ssh to allow remote login
+Edit the file: /Volumes/system-boot/network-config
 
-    $ touch /Volumes/boot/ssh
-
-Add your WiFi network info
-
-    $ touch /Volumes/boo/wpa_supplicant.conf
-
-Paste the following lines into this file
-
-    country=DE # your country code
-    ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-    update_config=1
-
-    network={
-        ssid="NETWORK-NAME"
-        psk="NETWORK-PASSWORD"
-    }
+For ssh you can check the file: /Volumes/system-boot/user-data
 
 For more information just visit this page:
 https://desertbot.io/blog/headless-raspberry-pi-4-ssh-wifi-setup
