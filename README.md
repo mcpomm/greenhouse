@@ -4,33 +4,23 @@
 
 https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview
 
-## Headless Raspberry Pi 4 SSH WiFi Setup
+## Setup Wi-Fi directly from your SD card
 
-Enable ssh to allow remote login
+Edit the file: /Volumes/system-boot/network-config
 
-    $ touch /Volumes/boot/ssh
-
-Add your WiFi network info
-
-    $ touch /Volumes/boo/wpa_supplicant.conf
-
-Paste the following lines into this file
-
-    country=DE # your country code
-    ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-    update_config=1
-
-    network={
-        ssid="NETWORK-NAME"
-        psk="NETWORK-PASSWORD"
-    }
+For ssh you can check the file: /Volumes/system-boot/user-data
 
 For more information just visit this page:
 https://desertbot.io/blog/headless-raspberry-pi-4-ssh-wifi-setup
 
+## Raspberry Pi Linux kernel extra modules
+Install linux-modules-extra-raspi - Raspberry Pi Linux kernel extra modules in order to have VXLAN available.
+See also:
+https://www.mail-archive.com/search?l=ubuntu-bugs@lists.ubuntu.com&q=subject:%22%5C%5BBug+1947628%5C%5D+Re%5C%3A+VXLAN+support+is+not+present+in+kernel+%5C-+Ubuntu+21.10+on+Raspberry+Pi+4+%5C%2864bit%5C%29%22&o=newest&f=1
+
 ## Setup authorized keys and hostname
 
-1.  Log into the Raspberry, create the file ~/.ssh/authorized_keys(if not already present) and add the contents of your public key file (e.g. /.ssh/id_rsa ).
+1.  Log into the Raspberry, create the file ~/.ssh/authorized_keys(if not already present) and add the contents of your public key file (e.g. ~/.ssh/id_rsa_pub ).
 2.  You can change the hosfile with the follofing command
 
         $ sudo hostnamectl set-hostname greenhouse-proto
