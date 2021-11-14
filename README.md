@@ -18,6 +18,11 @@ Install linux-modules-extra-raspi - Raspberry Pi Linux kernel extra modules in o
 See also:
 https://www.mail-archive.com/search?l=ubuntu-bugs@lists.ubuntu.com&q=subject:%22%5C%5BBug+1947628%5C%5D+Re%5C%3A+VXLAN+support+is+not+present+in+kernel+%5C-+Ubuntu+21.10+on+Raspberry+Pi+4+%5C%2864bit%5C%29%22&o=newest&f=1
 
+        Update the package index:
+        $ sudo apt-get update
+        Install linux-modules-extra-raspi deb package:
+        $ sudo apt-get install linux-modules-extra-raspi
+
 ## Setup authorized keys and hostname
 
 1.  Log into the Raspberry, create the file ~/.ssh/authorized_keys(if not already present) and add the contents of your public key file (e.g. ~/.ssh/id_rsa_pub ).
