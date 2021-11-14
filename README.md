@@ -53,7 +53,7 @@ Apply the Ansible Playbook in order to install Kubernetes on you Raspberry.
 Log into rasbperry and copy the content of the following cert file: /etc/kubernetes/pki/ca.crt and save it temporarily locally in a text file.
 Then encode the text in the file locally as a base64 string:
 
-    echo '<text from file>' | grep base64
+    echo '<text from file>' | base64
 
 Then use the base64 encoded string for a new cluster entry in the local ./kube/config.
 
