@@ -197,7 +197,7 @@
     ###################################################################
     # Kubernetes User
     ###################################################################
-    - name: Ensure group "somegroup" exists
+    - name: Ensure group "greenhouse" exists
       ansible.builtin.group:
         name: greenhouse
         state: present
