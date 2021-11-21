@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
+	"github.com/stianeikeland/go-rpio/v4"
 	"github.com/yryz/ds18b20"
 )
 
@@ -40,11 +42,21 @@ func temperature(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
+	} else {
+		fmt.Println(err)
 	}
 
 }
 
 func main() {
+	pin := rpio.Pin(4)
+	// Open and map memory to access gpio, check for errors
+	if err := rpio.Open(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	pin.Input()
+	pin.PullUp()
 	// read sensor id from sys/bus/w1/devices/
 	sensor = "28-01203390917a"
 
