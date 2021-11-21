@@ -36,7 +36,7 @@ spec:
         - env:
             - name: PORT
               value: "5000"
-          image: mcpomm/greenhouse-temperature:0.0.3
+          image: mcpomm/greenhouse-temperature:0.0.5
           name: greenhouse-temperature
           ports:
             - containerPort: 5000

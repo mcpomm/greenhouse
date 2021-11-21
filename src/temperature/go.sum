@@ -1,2 +1,6 @@
+github.com/stianeikeland/go-rpio v1.0.0 h1:9a5DDConuUBSBR4mYsr9dV0uAxGypybCumg0KR2o3fc=
+github.com/stianeikeland/go-rpio v4.2.0+incompatible h1:CUOlIxdJdT+H1obJPsmg8byu7jMSECLfAN9zynm5QGo=
+github.com/stianeikeland/go-rpio/v4 v4.5.1 h1:sLzl5w1HS+4726C5kfvpIgjXULrLCCM82vDpAFefGQI=
+github.com/stianeikeland/go-rpio/v4 v4.5.1/go.mod h1:A3GvHxC1Om5zaId+HqB3HKqx4K/AqeckxB7qRjxMK7o=
 github.com/yryz/ds18b20 v0.0.0-20200527154408-4a8f84bb82d4 h1:r/Ao3vlui4mHCnyqo/JoMm9F9bhs3lUZ93Zqk8dDQxo=
 github.com/yryz/ds18b20 v0.0.0-20200527154408-4a8f84bb82d4/go.mod h1:MqFju5qeLDFh+S9PqxYT7TEla8xeW7bgGr/69q3oki0=
