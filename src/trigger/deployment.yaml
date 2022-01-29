@@ -36,7 +36,7 @@ spec:
         app: greenhouse-trigger
     spec:
       containers:
-        - image: mcpomm/greenhouse-trigger:0.0.15
+        - image: mcpomm/greenhouse-trigger:0.0.17
           name: greenhouse-trigger
           ports:
             - containerPort: 5400
